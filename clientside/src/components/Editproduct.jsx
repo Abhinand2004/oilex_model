@@ -1,18 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./sellitems.css";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
-import { Navigate } from "react-router-dom";
-const Sellitems = ({ username }) => {
-    
-    const navigate=useNavigate()
-    const token =localStorage.getItem("token")
+import { Link, useParams } from "react-router-dom";
+const EditProduct = () => {
+ const {id}=useParams()
+//  console.log(id);
+ 
     const [formData, setFormData] = useState({
         productName: "",
         category: "",
         images: [],
         description: "",
-        price: ""
+        price: "",
     });
 
     const handleChange = (e) => {
@@ -37,16 +36,14 @@ const Sellitems = ({ username }) => {
             fileReader.onerror = (error) => reject(error);
         });
     };
-    const handleSubmit = async(e) => {
-        e.preventDefault();
-    
+
+    const fetchdata=async()=>{
         try {
-            const res=await axios.post("http://localhost:3000/api/addpost",formData,{
-                headers:{Authorization:`Bearer ${token}`}
-            })
+            const res=await axios.get(`http://localhost:3000/api/productdetails/${id}`)
             if (res.status==200) {
-                alert("data added successfully")
-                navigate("/profile")
+               setFormData(res.data.userdata)
+               console.log(res.data.userdata);
+               
             }
             else{
             alert("error")
@@ -54,8 +51,28 @@ const Sellitems = ({ username }) => {
         } catch (error) {
            alert("cant fetch data") 
         }
-    };
+    }
+    const handleSubmit = async(e) => {
+        e.preventDefault();
+        try {
+            const res=await axios.post(`http://localhost:3000/api/update/${id}`,formData,{
+                headers:{Authorization:`Bearer ${localStorage.getItem("token")}`}
+            })
+            if (res.status==200) {
+                alert("data updated successfully")
+            }
+            else{
+            alert("error")
+            }
+        } catch (error) {
+           alert("cant fetch data") 
+        }
 
+       
+    };
+useEffect(()=>{
+    fetchdata()
+},[])
     return (
         <div className="sell-items-container">
             <h2>user name</h2>
@@ -69,15 +86,7 @@ const Sellitems = ({ username }) => {
                     <select    id="category"  name="category"   value={formData.category}  onChange={handleChange} required>
                         <option value="">Select Category</option>
                         <option value="electronics">Electronics</option>
-                        <option value="phone">SmartPhone</option>
-                        <option value="telivision">Telivision</option>
-                        <option value="computer">Computer</option>
                         <option value="fashion">Fashion</option>
-                        <option value="pants">Pants</option>
-                        <option value="Shirt">Shirt</option>
-                        <option value="Vehicle">Vehicle</option>
-                        <option value="car">car</option>
-                        <option value="two_weeler">Two_weeler</option>
                         <option value="home">Home</option>
                         <option value="toys">Toys</option>
                         <option value="sports">Sports</option>
@@ -104,11 +113,11 @@ const Sellitems = ({ username }) => {
                     <label htmlFor="address">Price:</label>
                     <input  type="text"  id="price"   name="price" value={formData.price}  onChange={handleChange}    required    />
                 </div>
-                <button type="submit" className="sell-button">Sell Item</button>
+                <button type="submit" className="sell-button">Update Item</button>
                 <Link to={"/"}><button>Home</button></Link>
             </form>
         </div>
     );
 };
 
-export default Sellitems;
+export default EditProduct;

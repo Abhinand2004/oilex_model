@@ -9,6 +9,11 @@ const Register = () => {
     email: "",
     pwd: "",
     cpwd: "",
+    address: "",
+    city: "",
+    pincode: "",
+    phone: "",
+    district: "",
   });
   const [error, setError] = useState("");
   const navigate = useNavigate();
@@ -26,12 +31,13 @@ const Register = () => {
     setError("");
 
     // Basic client-side validation
-    if (!formData.username || !formData.email || !formData.pwd || !formData.cpwd) {
+    const { username, email, pwd, cpwd, address, city, pincode, phone, district } = formData;
+    if (!username || !email || !pwd || !cpwd || !address || !city || !pincode || !phone || !district) {
       setError("All fields are required.");
       return;
     }
 
-    if (formData.pwd !== formData.cpwd) {
+    if (pwd !== cpwd) {
       setError("Passwords do not match.");
       return;
     }
@@ -44,7 +50,6 @@ const Register = () => {
         navigate("/login");
       }
     } catch (error) {
-      // Extract error message from the server response
       const errorMsg = error.response?.data?.msg || "An error occurred during registration.";
       setError(errorMsg);
     }
@@ -63,7 +68,6 @@ const Register = () => {
             value={formData.username}
             required
             onChange={handleOnChange}
-            autoComplete="username"
           />
         </div>
         <div className="form-group">
@@ -74,7 +78,56 @@ const Register = () => {
             value={formData.email}
             required
             onChange={handleOnChange}
-            autoComplete="email"
+          />
+        </div>
+        <div className="form-group">
+          <label>Address</label>
+          <input
+            type="text"
+            name="address"
+            value={formData.address}
+            required
+            onChange={handleOnChange}
+          />
+        </div>
+        <div className="form-group">
+          <label>City</label>
+          <input
+            type="text"
+            name="city"
+            value={formData.city}
+            required
+            onChange={handleOnChange}
+          />
+        </div>
+        <div className="form-group">
+          <label>Pincode</label>
+          <input
+            type="text"
+            name="pincode"
+            value={formData.pincode}
+            required
+            onChange={handleOnChange}
+          />
+        </div>
+        <div className="form-group">
+          <label>Phone</label>
+          <input
+            type="text"
+            name="phone"
+            value={formData.phone}
+            required
+            onChange={handleOnChange}
+          />
+        </div>
+        <div className="form-group">
+          <label>District</label>
+          <input
+            type="text"
+            name="district"
+            value={formData.district}
+            required
+            onChange={handleOnChange}
           />
         </div>
         <div className="form-group">
@@ -85,7 +138,6 @@ const Register = () => {
             value={formData.pwd}
             required
             onChange={handleOnChange}
-            autoComplete="new-password"
           />
         </div>
         <div className="form-group">
@@ -96,7 +148,6 @@ const Register = () => {
             value={formData.cpwd}
             required
             onChange={handleOnChange}
-            autoComplete="new-password"
           />
         </div>
         <button type="submit" className="register-button">

@@ -28,7 +28,18 @@ const Nav = () => {
                 <select>
                     <option value="all">All Categories</option>
                     <option value="electronics">Electronics</option>
-                    <option value="fashion">Fashion</option>
+                        <option value="phone">SmartPhone</option>
+                        <option value="telivision">Telivision</option>
+                        <option value="computer">Computer</option>
+                        <option value="fashion">Fashion</option>
+                        <option value="pants">Pants</option>
+                        <option value="Shirt">Shirt</option>
+                        <option value="Vehicle">Vehicle</option>
+                        <option value="car">car</option>
+                        <option value="two_weeler">Two_weeler</option>
+                        <option value="home">Home</option>
+                        <option value="toys">Toys</option>
+                        <option value="sports">Sports</option>
                 </select>
             </div>
             <div className="navbar-logo">

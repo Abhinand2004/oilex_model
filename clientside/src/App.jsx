@@ -7,6 +7,9 @@ import Register from './components/Register';
 import Sellitems from './components/Sellitems';
 import Nav from './components/Nav';
 import Profile from './components/Profile';
+import ProductDetails from './components/Details';
+import Editproduct from './components/Editproduct';
+import HomeDetails from './components/ProductDetails';
 
 function App() {
   
@@ -22,6 +25,12 @@ function App() {
       <Route path='/register' element={<Register/>}></Route>
       <Route path='/sell' element={<Sellitems/>}></Route>
       <Route path='/profile' element={<Profile/>}></Route>
+      <Route path='/details/:id' element={<ProductDetails/>}></Route>
+      <Route path='/edit/:id' element={<Editproduct/>}></Route>
+      <Route path='/homedetails/:id' element={<HomeDetails/>}></Route>
+
+
+
     </Routes>
     </BrowserRouter>
     </>

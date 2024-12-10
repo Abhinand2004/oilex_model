@@ -3,7 +3,7 @@ import "./details.css";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { Navigate } from "react-router-dom";
-const ProductDetails = () => {
+const HomeDetails = () => {
     const  navigate=useNavigate()
     const {id}=useParams()
 const [product,setProduct]=useState({
@@ -28,19 +28,7 @@ const fetchProductDetails=async()=>{
         alert(error)
     }
 }
-const deleteData=async()=>{
-    try {
-        const res=await axios.delete(`http://localhost:3000/api/deleteproduct/${id}`)
-        if (res.status===200) {
-            alert("suseesdully delete")
-            navigate("/profile")
-        }else{
-            alert("error")
-        }
-    } catch (error) {
-       alert(error) 
-    }
-}
+
 useEffect(()=>{
     fetchProductDetails()
 },[])
@@ -65,15 +53,16 @@ useEffect(()=>{
 
      
       <div className="action-buttons">
-        <Link to={`/edit/${id}`}>
-        <button className="edit-button" >Edit</button>
+        <Link >
+        <button className="edit-button" >Message</button>
+        </Link>
+        <Link to={"/"}>
+        <button className="delete-button">Home</button>
         
         </Link>
-        <button className="delete-button" onClick={deleteData}>Delete</button>
-        <Link to={"/"}><button>Home</button></Link>
       </div>
     </div>
   );
 };
 
-export default ProductDetails;
+export default HomeDetails;

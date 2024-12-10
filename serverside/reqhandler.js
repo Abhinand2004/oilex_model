@@ -20,7 +20,7 @@ const transporter = nodemailer.createTransport({
 
 export async function register(req, res) {
     // console.log(req.body);
-    const { username, email, pwd, cpwd } = req.body
+    const { username, email, pwd, cpwd,phone,address,city,pincode ,district} = req.body
     const user = await userSchema.findOne({ email })
     if (!user) {
         if (!(username && email && pwd && cpwd))
@@ -28,7 +28,7 @@ export async function register(req, res) {
         if (pwd != cpwd)
             return res.status(500).send({ msg: "pass not match" })
         bcrypt.hash(pwd, 10).then((hpwd) => {
-            userSchema.create({ username, email, pass: hpwd })
+            userSchema.create({ username, email,phone,address,city,pincode ,district, pass: hpwd })
             res.status(200).send({ msg: "Successfull" })
         }).catch((error) => {
             console.log(error);
@@ -62,7 +62,6 @@ export async function login(req, res) {
 export async function createProductDetails(req, res) {
     const { ...data } = req.body;
     console.log(data);
-
     try {
         const user_id = await userSchema.findOne({ _id: req.user.UserID });
         if (!user_id) {
@@ -79,3 +78,105 @@ export async function createProductDetails(req, res) {
         res.status(500).send({ msg: "An error occurred while creating the product"});
     }
 }
+
+
+export async function userDataDisplay(req,res) {
+    const user_id = await userSchema.findOne({ _id: req.user.UserID });
+if (user_id) {
+    return res.status(200).send({user_id})
+}
+    return res.status(500).send({msg:"user dont find"})
+}
+
+
+export async function productData(req,res) {
+    const userdata = await productSchema.find({ user_id: req.user.UserID });
+if (userdata) {
+    return res.status(200).send({userdata})
+}
+    return res.status(500).send({msg:"user dont find"})
+}
+
+
+export async function prductDetailspage(req,res) {
+    const {id}=req.params
+    // console.log(id);
+    const userdata = await productSchema.findOne({ _id:id });
+if (userdata) {
+    return res.status(200).send({userdata})
+}
+    return res.status(500).send({msg:"user dont find"})
+}
+
+
+export async function deleteproduct(req,res) {
+    const {id}=req.params
+    // console.log(id);
+    const userdata = await productSchema.deleteOne({ _id:id });
+if (userdata) {
+    return res.status(200).send({userdata})
+}
+    return res.status(500).send({msg:"user dont find"})
+}
+
+
+export async function updateproduct(req, res) {
+    const { id } = req.params; 
+    const { ...data } = req.body; 
+    try {
+        const user = await userSchema.findOne({ _id: req.user.UserID });
+        if (!user) {
+            return res.status(404).send({ msg: "User does not exist" });
+        }
+        data.username = user.username;
+        data.user_id = req.user.UserID;
+        const result = await productSchema.updateOne( { _id: id }, { $set: data } );
+        if (result) {
+            return res.status(200).send({ msg: "Product updated successfully" });
+        } else {
+            return res.status(500).send({ msg: "enter all datas" });
+        }
+    } catch (error) {
+        
+        res.status(500).send({ msg: "An error occurred while updating the product"});
+    }
+}
+
+
+export async function displaytohomepage(req,res) {
+   try {
+    const data= await productSchema.find()
+    if (!data) {
+        return res.status(500).send({msg:"datas are empty"})
+    }
+    return res.status(200).send({data})
+} catch{
+
+    return res.status(500).send({msg:"cant fetch data"})
+}}
+
+
+export async function deleteAccount(req, res) {
+    try {
+      const user = await userSchema.findOne({ _id: req.user.UserID });
+      if (!user) {
+        return res.status(404).send({ msg: "User not found" });
+      }
+  
+      const posts = await productSchema.find({ user_id: req.user.UserID });
+      if (posts.length > 0) {
+        await productSchema.deleteMany({ user_id: req.user.UserID });
+      }
+  
+      const delUser = await userSchema.deleteOne({ _id: req.user.UserID });
+      if (delUser) {
+        return res.status(200).send({ msg: "User and associated posts deleted successfully" });
+      } else {
+        return res.status(500).send({ msg: "Failed to delete user" });
+      }
+    } catch (error) {
+      console.error("Error deleting account:", error);
+      res.status(500).send({ msg: "An error occurred while deleting the account" });
+    }
+  }
+  
