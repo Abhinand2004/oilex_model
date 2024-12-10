@@ -2,6 +2,7 @@ import userSchema from "./models/user.js"
 import nodemailer from 'nodemailer'
 import bcrypt from 'bcrypt'
 import pkg from 'jsonwebtoken'
+import productSchema from "./models/products.js"
 const { sign } = pkg
 
 
@@ -54,3 +55,27 @@ export async function login(req, res) {
     res.status(200).send({ token })
 }
 
+
+
+
+
+export async function createProductDetails(req, res) {
+    const { ...data } = req.body;
+    console.log(data);
+
+    try {
+        const user_id = await userSchema.findOne({ _id: req.user.UserID });
+        if (!user_id) {
+            return res.status(500).send({ msg: "User does not exist" });
+        }
+        data.username=user_id.username
+        data.user_id=req.user.UserID
+        const post = await productSchema.create(data);
+        console.log(post);
+
+        res.status(200).send({ msg: "Product created successfully"});
+    } catch (error) {
+        console.error("Error creating product:", error);
+        res.status(500).send({ msg: "An error occurred while creating the product"});
+    }
+}

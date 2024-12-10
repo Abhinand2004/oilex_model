@@ -4,9 +4,9 @@ import './App.css'
 import Home from './components/Home';
 import Login from './components/Login';
 import Register from './components/Register';
-import Emailverify from './components/Emailverify';
 import Sellitems from './components/Sellitems';
 import Nav from './components/Nav';
+import Profile from './components/Profile';
 
 function App() {
   
@@ -20,11 +20,8 @@ function App() {
       <Route path='/' element={<Home/>}></Route>
       <Route path='/login' element={<Login/>}></Route>
       <Route path='/register' element={<Register/>}></Route>
-      <Route path='/verify' element={<Emailverify/>}></Route>
       <Route path='/sell' element={<Sellitems/>}></Route>
-
-
-
+      <Route path='/profile' element={<Profile/>}></Route>
     </Routes>
     </BrowserRouter>
     </>
