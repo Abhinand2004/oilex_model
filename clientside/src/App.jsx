@@ -15,13 +15,13 @@ import Verifyemail from './components/verify';
 function App() {
   
   const [user,setUser]=useState("");
-
+const [filter,setFilter]=useState("")
   return (
     <>
     <BrowserRouter>
-{user &&  < Nav user={user}></Nav>}    
+{user &&  < Nav user={user} setFilter={setFilter}></Nav>}    
     <Routes>
-      <Route path='/' element={<Home  setUser={setUser} />}></Route>
+      <Route path='/' element={<Home  setUser={setUser} filter={filter}/>}></Route>
       <Route path='/login' element={<Login/>}></Route>
       <Route path='/register' element={<Register/>}></Route>
       <Route path='/sell' element={<Sellitems/>}></Route>

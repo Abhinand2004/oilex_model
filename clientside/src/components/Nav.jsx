@@ -2,7 +2,7 @@ import React from "react";
 import "./nav.css";
 import { useNavigate } from "react-router-dom";
 
-const Nav = ({user}) => {
+const Nav = ({user,setFilter}) => {
     const navigate = useNavigate();
     const token = localStorage.getItem("token");
 
@@ -47,7 +47,7 @@ console.log(user);
                 <img src="/path/to/logo.png" alt="Logo" />
             </div>
             <div className="navbar-search">
-                <input type="text" placeholder="Search..." />
+                <input type="text" placeholder="Search..." onChange={(e) => setFilter(e.target.value)}/>
             </div>
             <div>
                 <h3>{user}</h3>
