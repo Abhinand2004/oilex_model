@@ -13,6 +13,7 @@ router.route("/deleteproduct/:id").delete(rh.deleteproduct)
 router.route("/update/:id").post(Auth,rh.updateproduct)
 router.route("/homepage").get(Auth,rh.displaytohomepage)
 router.route("/deleteaccount").delete(Auth,rh.deleteAccount)
+router.route("/verifyemail").post(rh.verifyEmail)
 
 
 

@@ -2,8 +2,24 @@ import React, { useEffect, useState } from "react";
 import "./home.css"
 import axios  from "axios";
 import { Link } from "react-router-dom";
-const Home=()=>{
+const Home=({setUser})=>{
 const [products,setProducts]=useState([])
+
+    const userdatasfornav= async()=>{
+      try {
+        const res=await axios.get("http://localhost:3000/api/displayuser",{
+            headers:{Authorization:`Barear ${localStorage.getItem("token")}`}
+        })
+        if (res.status==200) {
+            setUser(res.data.user_id.username)
+            console.log(res.data.user_id.username);
+        }else{
+            alert("error")
+        }
+    } catch (error) {
+        alert(error)
+    }
+    }
 
     const fetchdatas=async()=>{
         try {
@@ -13,6 +29,7 @@ const [products,setProducts]=useState([])
           if (res.status==200) {
             // console.log(res.data.data);
             setProducts(res.data.data)
+            // console.log(res.uername);
             
           }
         } catch (error) {
@@ -22,6 +39,7 @@ const [products,setProducts]=useState([])
     // console.log(products);
     
     useEffect(()=>{
+      userdatasfornav()
         fetchdatas()
     },[])
     return(

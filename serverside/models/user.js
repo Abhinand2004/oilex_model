@@ -7,7 +7,8 @@ const userSchema = new mongoose.Schema({
     phone:{type:Number},
     district:{type:String},
     city:{type:String},
-    pincode:{type:Number}
+    pincode:{type:Number},
+    images:{type:String}
 
 });
 

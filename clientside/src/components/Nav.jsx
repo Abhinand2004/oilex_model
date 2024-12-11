@@ -2,7 +2,7 @@ import React from "react";
 import "./nav.css";
 import { useNavigate } from "react-router-dom";
 
-const Nav = () => {
+const Nav = ({user}) => {
     const navigate = useNavigate();
     const token = localStorage.getItem("token");
 
@@ -21,6 +21,7 @@ const Nav = () => {
             navigate("/login");
         }
     };
+console.log(user);
 
     return (
         <nav className="navbar">
@@ -47,6 +48,9 @@ const Nav = () => {
             </div>
             <div className="navbar-search">
                 <input type="text" placeholder="Search..." />
+            </div>
+            <div>
+                <h3>{user}</h3>
             </div>
             <div className="navbar-buttons">
                 <button className="sell-button" onClick={handleSellItemClick}>Sell Item</button>

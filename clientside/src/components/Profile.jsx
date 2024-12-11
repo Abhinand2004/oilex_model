@@ -7,10 +7,7 @@ import "./profile.css";
 const Profile = () => {
     const navigate=useNavigate()
     const [productData,setProductData]=useState([])
-    const [profile, setProfile] = useState({
-       username:"",
-       email:""
-    });
+    const [profile, setProfile] = useState({});
 
     const handleAddProduct = () => {
         navigate("/sell")    
@@ -21,8 +18,8 @@ try {
         headers:{Authorization:`Barear ${localStorage.getItem("token")}`}
     })
     if (res.status==200) {
-        // console.log(res.data.user_id);
-        
+       
+        console.log(res.data.user_id.username);
         setProfile(res.data.user_id)
     }else{
         alert("error")
@@ -76,7 +73,7 @@ useEffect(()=>{
     return (
         <div className="profile-page-container">
             <div className="profile-details">
-                <img src={profile.profilePhoto || "https://via.placeholder.com/150"} alt="Profile" className="profile-photo" />
+                <img src={profile.images || "https://via.placeholder.com/150"} alt="Profile" className="profile-photo" />
                 <p><strong>Username:</strong> {profile.username}</p>
                 <p><strong>Email:</strong> {profile.email}</p>
                 <p><strong>Phone Number:</strong> {profile.phone}</p>

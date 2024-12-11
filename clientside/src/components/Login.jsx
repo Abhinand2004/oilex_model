@@ -25,6 +25,7 @@ const Login = () => {
         if(res.status==200){  
           alert("you logined")
           console.log(res.data.token);
+          localStorage.removeItem("email")
           localStorage.setItem('token',res.data.token)
           navigate("/")
     
@@ -55,7 +56,7 @@ const Login = () => {
         <button type="submit" className="login-button">Login</button>
         <div className="extra-links">
           <a href="/forgot-password">Forgot Password?</a>
-          <a href="/register">Sign Up</a>
+          <a href="/verify">Sign Up</a>
         </div>
       </form>
     </div>

@@ -20,7 +20,7 @@ const transporter = nodemailer.createTransport({
 
 export async function register(req, res) {
     // console.log(req.body);
-    const { username, email, pwd, cpwd,phone,address,city,pincode ,district} = req.body
+    const { username, email, pwd, cpwd,phone,address,city,pincode ,district,images} = req.body
     const user = await userSchema.findOne({ email })
     if (!user) {
         if (!(username && email && pwd && cpwd))
@@ -28,13 +28,47 @@ export async function register(req, res) {
         if (pwd != cpwd)
             return res.status(500).send({ msg: "pass not match" })
         bcrypt.hash(pwd, 10).then((hpwd) => {
-            userSchema.create({ username, email,phone,address,city,pincode ,district, pass: hpwd })
+            userSchema.create({ username, email,phone,address,city,pincode ,district, pass: hpwd ,images})
             res.status(200).send({ msg: "Successfull" })
         }).catch((error) => {
             console.log(error);
         })
     } else {
         res.status(200).send({ msg: "email already used " })
+    }
+}
+
+export async function verifyEmail(req, res) {
+    const { email } = req.body
+    console.log(email);
+    if (!(email)) {
+        return res.status(500).send({ msg: "fields are empty" })
+    }
+    const user = await userSchema.findOne({ email })
+    if (!user) {
+        const info = await transporter.sendMail({
+            from: 'abhinandc293@gmail.com', // sender address
+            to: email, // list of receivers
+            subject: "verify", // Subject line
+            text: "VERIFY! your email", // plain text body
+            html: `
+<body style="margin: 0; padding: 0; font-family: Arial, sans-serif;">
+    <div style="max-width: 500px; margin: 0 auto; padding: 20px; background-color: #f0fdf8; border: 2px solid #6bd7a8; border-radius: 12px; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; text-align: center;">
+        <h2 style="color: #6bd7a8;">Email Verification</h2>
+        <p style="color: #333;">Click the button below to verify it's you</p>
+        <a href="http://localhost:5173/register" style="text-decoration: none;">
+            <button style="padding: 10px 20px; border: none; border-radius: 8px; background-color: #6bd7a8; color: white; font-size: 16px; cursor: pointer;">
+                Verify
+            </button>
+        </a>
+    </div>
+</body>
+`,
+        })
+        console.log("Message sent: %s", info.messageId)
+        res.status(200).send({ msg: "Verificaton email sented" })
+    } else {
+        return res.status(500).send({ msg: "email already exist" })
     }
 }
 
@@ -146,6 +180,8 @@ export async function updateproduct(req, res) {
 export async function displaytohomepage(req,res) {
    try {
     const data= await productSchema.find()
+    const userdata=await userSchema.find({_id:req.user.UserID})
+    
     if (!data) {
         return res.status(500).send({msg:"datas are empty"})
     }

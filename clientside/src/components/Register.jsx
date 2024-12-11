@@ -14,7 +14,9 @@ const Register = () => {
     pincode: "",
     phone: "",
     district: "",
+    images: ""
   });
+  formData.email=localStorage.getItem("email")
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
@@ -26,11 +28,25 @@ const Register = () => {
     });
   };
 
+  const handleImageChange = async (e) => {
+    const file = e.target.files[0];
+    const base64 = await convertToBase64(file);
+    setFormData({ ...formData, images: base64 });
+  };
+
+  const convertToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+      fileReader.onload = () => resolve(fileReader.result);
+      fileReader.onerror = (error) => reject(error);
+    });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
 
-    // Basic client-side validation
     const { username, email, pwd, cpwd, address, city, pincode, phone, district } = formData;
     if (!username || !email || !pwd || !cpwd || !address || !city || !pincode || !phone || !district) {
       setError("All fields are required.");
@@ -62,97 +78,45 @@ const Register = () => {
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label>Username</label>
-          <input
-            type="text"
-            name="username"
-            value={formData.username}
-            required
-            onChange={handleOnChange}
-          />
+          <input type="text" name="username" value={formData.username} required onChange={handleOnChange} />
         </div>
-        <div className="form-group">
+        {/* <div className="form-group">
           <label>Email</label>
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            required
-            onChange={handleOnChange}
-          />
-        </div>
+          <input type="email" name="email" value={formData.email} required onChange={handleOnChange} />
+        </div> */}
         <div className="form-group">
           <label>Address</label>
-          <input
-            type="text"
-            name="address"
-            value={formData.address}
-            required
-            onChange={handleOnChange}
-          />
+          <input type="text" name="address" value={formData.address} required onChange={handleOnChange} />
         </div>
         <div className="form-group">
           <label>City</label>
-          <input
-            type="text"
-            name="city"
-            value={formData.city}
-            required
-            onChange={handleOnChange}
-          />
+          <input type="text" name="city" value={formData.city} required onChange={handleOnChange} />
         </div>
         <div className="form-group">
           <label>Pincode</label>
-          <input
-            type="text"
-            name="pincode"
-            value={formData.pincode}
-            required
-            onChange={handleOnChange}
-          />
+          <input type="text" name="pincode" value={formData.pincode} required onChange={handleOnChange} />
         </div>
         <div className="form-group">
           <label>Phone</label>
-          <input
-            type="text"
-            name="phone"
-            value={formData.phone}
-            required
-            onChange={handleOnChange}
-          />
+          <input type="text" name="phone" value={formData.phone} required onChange={handleOnChange} />
         </div>
         <div className="form-group">
           <label>District</label>
-          <input
-            type="text"
-            name="district"
-            value={formData.district}
-            required
-            onChange={handleOnChange}
-          />
+          <input type="text" name="district" value={formData.district} required onChange={handleOnChange} />
         </div>
         <div className="form-group">
           <label>Password</label>
-          <input
-            type="password"
-            name="pwd"
-            value={formData.pwd}
-            required
-            onChange={handleOnChange}
-          />
+          <input type="password" name="pwd" value={formData.pwd} required onChange={handleOnChange} />
         </div>
         <div className="form-group">
           <label>Confirm Password</label>
-          <input
-            type="password"
-            name="cpwd"
-            value={formData.cpwd}
-            required
-            onChange={handleOnChange}
-          />
+          <input type="password" name="cpwd" value={formData.cpwd} required onChange={handleOnChange} />
         </div>
-        <button type="submit" className="register-button">
-          Register
-        </button>
+        <div className="form-group">
+          <label>Profile Picture</label>
+          <input type="file" name="images" accept="image/*" onChange={handleImageChange} />
+        </div>
+        <button type="submit" className="register-button">Register</button>
       </form>
     </div>
   );
