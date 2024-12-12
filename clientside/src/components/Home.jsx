@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import "./home.css"
 import axios  from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 const Home=({setUser,filter,setimage})=>{
+  const navigate=useNavigate()
 const [products,setProducts]=useState([])
-
     const userdatasfornav= async()=>{
       try {
         const res=await axios.get("http://localhost:3000/api/displayuser",{
@@ -16,9 +17,11 @@ const [products,setProducts]=useState([])
             console.log(res.data.user_id.username);
         }else{
             alert("error")
-        }
-    } catch (error) {
-        alert(error)
+          }
+        } catch (error) {
+          alert("please login first")
+      navigate("/login")
+        // alert(error)
     }
     }
 

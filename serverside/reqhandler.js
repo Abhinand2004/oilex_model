@@ -3,6 +3,7 @@ import nodemailer from 'nodemailer'
 import bcrypt from 'bcrypt'
 import pkg from 'jsonwebtoken'
 import productSchema from "./models/products.js"
+import buyerSchema from "./models/tobuy.js"
 const { sign } = pkg
 
 
@@ -179,9 +180,7 @@ export async function updateproduct(req, res) {
 
 export async function displaytohomepage(req,res) {
    try {
-    const data= await productSchema.find()
-    const userdata=await userSchema.find({_id:req.user.UserID})
-    
+    const data= await productSchema.find({user_id:{$ne:req.user.UserID}})  
     if (!data) {
         return res.status(500).send({msg:"datas are empty"})
     }
@@ -216,3 +215,49 @@ export async function deleteAccount(req, res) {
     }
   }
   
+
+
+
+
+  export async function messagedeails(req, res) {
+    const { ...data } = req.body;
+    const {id}=req.params
+    data.post_id = id
+  console.log(data);
+  
+    try {
+      const user = await userSchema.findOne({ _id: req.user.UserID });
+      if (!user) {
+        return res.status(404).send({ msg: "User does not exist" });
+      }
+  
+      const postdata = await productSchema.findOne({ _id: id });
+      if (!postdata) {
+        return res.status(404).send({ msg: "Product does not exist" });
+      }
+      data.seller_id = postdata.user_id;
+      data.productName = postdata.productName;
+      data.category = postdata.category;
+      data.buyername = user.username; 
+      data.buyer_id = req.user.UserID;
+  
+
+      const message = await buyerSchema.create(data);
+      console.log("Message created:", message);
+  
+      res.status(200).send({ msg: "Message created successfully" });
+    } catch (error) {
+      console.error("Error creating message:", error);
+      res.status(500).send({ msg: "An error occurred while creating the message" });
+    }
+  }
+
+
+
+  export async function notificationdetails(req,res) {
+ const message= await buyerSchema.find({seller_id:req.user.UserID})
+ if (!message) {
+    return res.status(500).send({msg:",no messages found"})
+ }
+    return res.status(200).send({message})
+  }

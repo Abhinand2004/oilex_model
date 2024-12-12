@@ -14,6 +14,10 @@ router.route("/update/:id").post(Auth,rh.updateproduct)
 router.route("/homepage").get(Auth,rh.displaytohomepage)
 router.route("/deleteaccount").delete(Auth,rh.deleteAccount)
 router.route("/verifyemail").post(rh.verifyEmail)
+router.route("/message/:id").post(Auth,rh.messagedeails)
+router.route("/notification").get(Auth,rh.notificationdetails)
+
+
 
 
 

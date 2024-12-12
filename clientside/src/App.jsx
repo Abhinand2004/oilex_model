@@ -11,6 +11,8 @@ import ProductDetails from './components/Details';
 import Editproduct from './components/Editproduct';
 import HomeDetails from './components/ProductDetails';
 import Verifyemail from './components/verify';
+import Message from './components/Message';
+import Notifi from './components/Notification';
 
 function App() {
   
@@ -31,6 +33,10 @@ const [filter,setFilter]=useState("")
       <Route path='/edit/:id' element={<Editproduct/>}></Route>
       <Route path='/homedetails/:id' element={<HomeDetails/>}></Route>
       <Route path='/verify' element={<Verifyemail/>}></Route>
+      <Route path='/message/:id' element={<Message/>}></Route>
+      <Route path='/notification' element={<Notifi/>}></Route>
+
+
 
 
 

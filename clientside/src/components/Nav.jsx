@@ -21,7 +21,10 @@ const Nav = ({user,setFilter,image}) => {
             navigate("/login");
         }
     };
-console.log(user);
+// console.log(user);
+const msg=()=>{
+    navigate("/notification")
+}
 
     return (
         <nav className="navbar">
@@ -60,6 +63,7 @@ console.log(user);
                     </button>
                 )}
             </div>
+            <div onClick={msg}>✉</div>
         </nav>
     );
 };

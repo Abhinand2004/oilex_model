@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./details.css";
+import "./productdetails.css";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { Navigate } from "react-router-dom";
@@ -28,7 +28,9 @@ const fetchProductDetails=async()=>{
         alert(error)
     }
 }
-
+const message=()=>{
+  navigate(`/message/${id}`)
+}
 useEffect(()=>{
     fetchProductDetails()
 },[])
@@ -53,9 +55,7 @@ useEffect(()=>{
 
      
       <div className="action-buttons">
-        <Link >
-        <button className="edit-button" >Message</button>
-        </Link>
+        <button className="edit-button" onClick={message} >Message</button>
         <Link to={"/"}>
         <button className="delete-button">Home</button>
         
