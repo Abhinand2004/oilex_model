@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./home.css"
 import axios  from "axios";
 import { Link } from "react-router-dom";
-const Home=({setUser,filter})=>{
+const Home=({setUser,filter,setimage})=>{
 const [products,setProducts]=useState([])
 
     const userdatasfornav= async()=>{
@@ -12,6 +12,7 @@ const [products,setProducts]=useState([])
         })
         if (res.status==200) {
             setUser(res.data.user_id.username)
+            setimage(res.data.user_id.images)
             console.log(res.data.user_id.username);
         }else{
             alert("error")
@@ -52,7 +53,7 @@ const [products,setProducts]=useState([])
                        <div className="imagediv">
                            <img src={data.images[0]} className="home_images" />
                        </div>
-                       <div className="h3">name:{data.productName}</div>
+                       <div className="h3">name:{data.productName} <br /> <small className="category">{data.category}</small></div>
                       </div>  
                    
                     </Link>

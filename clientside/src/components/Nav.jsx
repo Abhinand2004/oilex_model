@@ -2,7 +2,7 @@ import React from "react";
 import "./nav.css";
 import { useNavigate } from "react-router-dom";
 
-const Nav = ({user,setFilter}) => {
+const Nav = ({user,setFilter,image}) => {
     const navigate = useNavigate();
     const token = localStorage.getItem("token");
 
@@ -56,7 +56,7 @@ console.log(user);
                 <button className="sell-button" onClick={handleSellItemClick}>Sell Item</button>
                 {token && (
                     <button className="profile-button" onClick={handleProfileClick}>
-                        <img src="https://via.placeholder.com/40" alt="Profile" />
+                        <img src={image || "https://via.placeholder.com/40"} alt="Profile" />
                     </button>
                 )}
             </div>
