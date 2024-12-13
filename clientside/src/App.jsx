@@ -19,12 +19,13 @@ function App() {
   const [user,setUser]=useState("");
   const[image,setimage]=useState("")
 const [filter,setFilter]=useState("")
+const [name,setName]=useState("")
   return (
     <>
     <BrowserRouter>
-{user &&  < Nav user={user} setFilter={setFilter} image={image} filter={filter}></Nav>}    
+{user &&  < Nav user={user} setFilter={setFilter} image={image} filter={filter} setName={setName}></Nav>}    
     <Routes>
-      <Route path='/' element={<Home  setUser={setUser} setimage={setimage} filter={filter}/>}></Route>
+      <Route path='/' element={<Home  setUser={setUser} setimage={setimage} filter={filter} name={name}/>}></Route>
       <Route path='/login' element={<Login/>}></Route>
       <Route path='/register' element={<Register/>}></Route>
       <Route path='/sell' element={<Sellitems/>}></Route>

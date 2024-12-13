@@ -228,7 +228,7 @@ export async function deleteAccount(req, res) {
     try {
       const user = await userSchema.findOne({ _id: req.user.UserID });
       if (!user) {
-        return res.status(404).send({ msg: "User does not exist" });
+        return res.status(404).send({ msg: "please login again" });
       }
   
       const postdata = await productSchema.findOne({ _id: id });
@@ -237,11 +237,10 @@ export async function deleteAccount(req, res) {
       }
       data.seller_id = postdata.user_id;
       data.productName = postdata.productName;
-      data.category = postdata.category;
       data.buyername = user.username; 
       data.buyer_id = req.user.UserID;
   
-
+      
       const message = await buyerSchema.create(data);
       console.log("Message created:", message);
   

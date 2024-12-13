@@ -3,7 +3,7 @@ import "./home.css"
 import axios  from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { Navigate } from "react-router-dom";
-const Home=({setUser,filter,setimage})=>{
+const Home=({setUser,filter,setimage,name})=>{
   const navigate=useNavigate()
 const [products,setProducts]=useState([])
     const userdatasfornav= async()=>{
@@ -50,7 +50,8 @@ const [products,setProducts]=useState([])
         <div>
             <div className="alldtdatas">
                 {
-                  products.filter((i)=>i.category.toLowerCase().includes(filter.toLowerCase())).map((data,index)=>(
+                    products.filter((i)=>i.productName.toLowerCase().includes(name.toLowerCase())). 
+            filter((i)=>i.category.toLowerCase().includes(filter.toLowerCase())).map((data,index)=>(
                     <Link to={`/homedetails/${data._id}`} key={index}>
                       <div className="card" >
                        <div className="imagediv">
