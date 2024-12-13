@@ -22,7 +22,7 @@ const [filter,setFilter]=useState("")
   return (
     <>
     <BrowserRouter>
-{user &&  < Nav user={user} setFilter={setFilter} image={image}></Nav>}    
+{user &&  < Nav user={user} setFilter={setFilter} image={image} filter={filter}></Nav>}    
     <Routes>
       <Route path='/' element={<Home  setUser={setUser} setimage={setimage} filter={filter}/>}></Route>
       <Route path='/login' element={<Login/>}></Route>

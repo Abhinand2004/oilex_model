@@ -2,7 +2,7 @@ import React from "react";
 import "./nav.css";
 import { useNavigate } from "react-router-dom";
 
-const Nav = ({user,setFilter,image}) => {
+const Nav = ({user,setFilter,image,filter}) => {
     const navigate = useNavigate();
     const token = localStorage.getItem("token");
 
@@ -13,7 +13,11 @@ const Nav = ({user,setFilter,image}) => {
             navigate("/login");
         }
     };
-
+    const handleChange = (event) => { 
+         const value = event.target.value; 
+         setFilter(value === "all" ? "" : value);
+        
+        };
     const handleProfileClick = () => {
         if (token) {
             navigate("/profile");
@@ -21,6 +25,8 @@ const Nav = ({user,setFilter,image}) => {
             navigate("/login");
         }
     };
+
+
 // console.log(user);
 const msg=()=>{
     navigate("/notification")
@@ -29,7 +35,7 @@ const msg=()=>{
     return (
         <nav className="navbar">
             <div className="navbar-category">
-                <select>
+                <select value={filter} onChange={handleChange}>
                     <option value="all">All Categories</option>
                     <option value="electronics">Electronics</option>
                         <option value="phone">SmartPhone</option>
